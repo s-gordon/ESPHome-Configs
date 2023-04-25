@@ -1,0 +1,26 @@
+esphome:
+  name: "${name}"
+  friendly_name: "${friendly_name}"
+  platform: ESP8266
+  board: esp01_1m
+  esp8266_restore_from_flash: true
+
+wifi:
+  # Fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "${name}"
+
+captive_portal:
+
+logger:
+
+sensor:
+  - platform: wifi_signal
+    name: ${device_name} Wifi Signal Strength
+    update_interval: 60s
+  - platform: uptime
+    name: ${device_name} Uptime
+
+switch:
+  - platform: restart
+    name: "${friendly_name} REBOOT"

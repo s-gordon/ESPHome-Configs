@@ -1,0 +1,32 @@
+subtitutions:
+  name: "detagrid-switch"
+  friendly_name: "DetaGrid Switch"
+
+packages:
+  remote_package:
+    url: https://github.com/s-gordon/ESPHome-Configs
+    ref: main
+    refresh: 1d
+    files:
+      # uncomment relevant lines to your device
+
+      # -- detagrid smart switch
+      - esphome/packages/config/base.yaml
+      # - esphome/packages/config/detagrid-smart-switch/2-gang.yaml
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "<secret>"
+
+ota:
+  password: !secret ota_password
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  # fast_connect: on
+  # Fallback hotspot (captive portal) in case wifi connection fails
+  # ap:
+  #   ssid: "${name}"
+      
