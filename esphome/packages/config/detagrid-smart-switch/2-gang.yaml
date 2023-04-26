@@ -6,53 +6,53 @@ substitutions:
     switch_2_button_pin: GPIO12
 
 status_led:
-    pin:
-        number: ${led_pin}
-        inverted: True
+  pin:
+    number: ${led_pin}
+    inverted: True
 
 output:
-    # Top (or only) button
-    - platform: gpio
-      pin: ${switch_1_relay_pin}
-      id: relay1
-    # Bottom button (for Smart Double Switch - delete for single switch)
-    - platform: gpio
-      pin: ${switch_2_relay_pin}
-      id: relay2
+  # Top (or only) button
+  - platform: gpio
+    pin: ${switch_1_relay_pin}
+    id: relay1
+  # Bottom button (for Smart Double Switch - delete for single switch)
+  - platform: gpio
+    pin: ${switch_2_relay_pin}
+    id: relay2
     
 light:
-    # Top (or only) button
-    - platform: binary
-      name: "${friendly_name} Top"
-      output: relay1
-      id: light1
+  # Top (or only) button
+  - platform: binary
+    name: "${friendly_name} Top"
+    output: relay1
+    id: light1
     
-    # Bottom button (for Smart Double Switch - delete for single switch)
-    - platform: binary
-      name: "${friendly_name} Bottom"
-      output: relay2
-      id: light2 
+  # Bottom button (for Smart Double Switch - delete for single switch)
+  - platform: binary
+    name: "${friendly_name} Bottom"
+    output: relay2
+    id: light2 
 
 # Buttons
 binary_sensor:
-    # Top (or only) button
-    - platform: gpio
-      pin:
-        number: ${switch_1_button_pin}
-        mode: INPUT
-        inverted: True
-      name: "${friendly_name} Top Button"
-      #toggle relay on push
-      on_press:
-        - light.toggle: light1
+  # Top (or only) button
+  - platform: gpio
+    pin:
+      number: ${switch_1_button_pin}
+      mode: INPUT
+      inverted: True
+    name: "${friendly_name} Top Button"
+    #toggle relay on push
+    on_press:
+      - light.toggle: light1
   
-    # Bottom button (for Smart Double Switch - delete for single switch)
-    - platform: gpio
-      pin:
-        number: ${switch_2_button_pin}
-        mode: INPUT_PULLUP
-        inverted: True
-      name: "${friendly_name} Bottom Button"
-      #toggle relay on push
-      on_press:
-        - light.toggle: light2
+  # Bottom button (for Smart Double Switch - delete for single switch)
+  - platform: gpio
+    pin:
+      number: ${switch_2_button_pin}
+      mode: INPUT_PULLUP
+      inverted: True
+    name: "${friendly_name} Bottom Button"
+    #toggle relay on push
+    on_press:
+      - light.toggle: light2
