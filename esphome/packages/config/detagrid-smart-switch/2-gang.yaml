@@ -20,7 +20,7 @@ output:
         pin: ${switch_2_relay_pin}
         id: relay2
     
-    light:
+light:
     # Top (or only) button
     - platform: binary
         name: "${friendly_name} Top"
