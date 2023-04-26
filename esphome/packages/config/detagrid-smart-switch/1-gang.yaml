@@ -1,0 +1,35 @@
+substitutions:
+    led_pin: GPIO4
+    switch_1_relay_pin: GPIO13
+    switch_1_button_pin: GPIO16
+
+status_led:
+  pin:
+    number: ${led_pin}
+    inverted: True
+
+output:
+  # Top (or only) button
+  - platform: gpio
+    pin: ${switch_1_relay_pin}
+    id: relay1
+    
+light:
+  # Top (or only) button
+  - platform: binary
+    name: "${friendly_name} Top"
+    output: relay1
+    id: light1
+
+# Buttons
+binary_sensor:
+  # Top (or only) button
+  - platform: gpio
+    pin:
+      number: ${switch_1_button_pin}
+      mode: INPUT
+      inverted: True
+    name: "${friendly_name} Top Button"
+    #toggle relay on push
+    on_press:
+      - light.toggle: light1
