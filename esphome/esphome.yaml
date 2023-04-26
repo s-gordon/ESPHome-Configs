@@ -13,6 +13,7 @@ packages:
       # -- detagrid smart switch
       - esphome/packages/config/base.yaml
       # - esphome/packages/config/detagrid-smart-switch/2-gang.yaml
+      # - esphome/packages/config/detagrid-smart-switch/3-gang.yaml
 
 # Enable Home Assistant API
 api:
