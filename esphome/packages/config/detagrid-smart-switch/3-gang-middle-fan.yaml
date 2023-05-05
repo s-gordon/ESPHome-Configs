@@ -34,18 +34,18 @@ light:
     name: "${friendly_name} 1st"
     output: relay1
     id: light1
-
-  # 2nd button
-  - platform: binary
-    name: "${friendly_name} 2nd"
-    output: relay2
-    id: light2
-
   # 3rd button
   - platform: binary
     name: "${friendly_name} 3rd"
     output: relay3
     id: light3
+
+fan:
+  # 2nd button
+  - platform: binary
+    name: "${friendly_name} 2nd"
+    output: relay2
+    id: fan1
 
 binary_sensor:
   # 1st button
@@ -68,7 +68,7 @@ binary_sensor:
     name: "${friendly_name} 2nd Button"
     #toggle relay on push
     on_press:
-      - light.toggle: light2
+      - fan.toggle: fan1
 
   # 3rd button
   - platform: gpio
