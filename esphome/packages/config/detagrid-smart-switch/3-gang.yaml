@@ -28,7 +28,7 @@ output:
     pin: ${switch_3_relay_pin}
     id: relay3
     
-light:
+switch:
   # 1st button
   - platform: binary
     name: "${friendly_name} 1st"
