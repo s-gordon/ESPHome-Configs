@@ -1,0 +1,71 @@
+substitutions:
+  name: "deta-double-gang"
+  friendly_name: DETA Double Gang Switch
+  friendly_name_left: DETA Double Gang - Left
+  friendlyname_right: DETA Double Gang - Right
+  device_icon: "mdi:light-recessed"
+  device_model: Deta Grid Connect Double Gang 6912HAMBK (Matte Black)
+
+  led_pin: P9
+  switch_left_relay_pin: P6
+  switch_right_relay_pin: P26
+  switch_left_button_pin: P14
+  switch_right_button_pin: P24
+
+status_led:
+  pin:
+    number: ${led_pin}
+    inverted: True
+
+output:
+  # Top (or only) button
+  - platform: gpio
+    pin: ${switch_left_relay_pin}
+    id: relay_left
+  # Bottom button (for Smart Double Switch - delete for single switch)
+  - platform: gpio
+    pin: ${switch_right_relay_pin}
+    id: relay_right
+    
+light:
+  # Top (or only) button
+  - platform: binary
+    name: "${friendly_name} Left"
+    output: relay_left
+    id: light_left
+    icon: ${device_icon}
+    
+  # Bottom button (for Smart Double Switch - delete for single switch)
+  - platform: binary
+    name: "${friendly_name} Right"
+    output: relay_right
+    id: light_right
+    icon: ${device_icon}
+
+# Buttons
+binary_sensor:
+  # Top (or only) button
+  - platform: gpio
+    pin:
+      number: ${switch_left_button_pin}
+      mode: INPUT_PULLUP
+      inverted: True
+    name: "${friendly_name} Left Button"
+    #toggle relay on push
+    on_press:
+      then:
+        - light.toggle: light_left
+    internal: True
+  
+  # Bottom button (for Smart Double Switch - delete for single switch)
+  - platform: gpio
+    pin:
+      number: ${switch_right_button_pin}
+      mode: INPUT_PULLUP
+      inverted: True
+    name: "${friendly_name} Right Button"
+    #toggle relay on push
+    on_press:
+      then:
+        - light.toggle: light_right
+    internal: True

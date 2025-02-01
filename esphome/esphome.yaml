@@ -11,10 +11,14 @@ packages:
       # uncomment relevant lines to your device
 
       # -- detagrid smart switch
-      - esphome/packages/config/base.yaml
+      # - esphome/packages/config/base.yaml
       # - esphome/packages/config/detagrid-smart-switch/1-gang.yaml
       # - esphome/packages/config/detagrid-smart-switch/2-gang.yaml
       # - esphome/packages/config/detagrid-smart-switch/3-gang.yaml
+
+      # BK72XX boards
+      # - esphome/packages/config/base-BK72XX.yaml
+      # - esphome/packages/config/detagrid-smart-switch/DETA-Grid-Connect-Smart-Switch-2-gang_BK72XX
 
 # Enable Home Assistant API
 api:
