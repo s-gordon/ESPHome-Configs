@@ -5,7 +5,6 @@ substitutions:
 esphome:
   name: ${name}
   friendly_name: ${friendly_name}
-  version: "1.0-rc1"
 
 bk72xx:
   board: cb3s
