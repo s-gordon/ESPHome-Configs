@@ -1,0 +1,34 @@
+substitutions:
+  name: "${room}-ir-blaster"
+  friendly_name: "${area} IR Blaster"
+
+esphome:
+  name: ${name}
+  friendly_name: ${friendly_name}
+  version: "1.0-rc1"
+
+bk72xx:
+  board: cb3s
+
+# Enable logging
+logger:
+
+light:
+  - platform: status_led
+    name: "Status"
+    pin: P8
+
+remote_transmitter:
+  pin: P26
+  carrier_duty_percent: 50%
+
+# Receiver allows the original remote to be used and HA to follow along
+remote_receiver:
+  id: rcvr
+  pin:
+    number: P7
+    inverted: true
+    mode:
+      input: true
+      pullup: true
+  tolerance: 55%
