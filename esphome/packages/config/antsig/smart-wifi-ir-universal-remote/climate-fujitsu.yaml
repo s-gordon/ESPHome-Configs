@@ -1,0 +1,11 @@
+climate:
+  - platform: fujitsu_general
+    supports_cool: True
+    supports_heat: True
+    visual:
+      max_temperature: 26
+      min_temperature: 16
+      temperature_step: 1
+    name: AC
+    receiver_id: rcvr
+    sensor: temperature
