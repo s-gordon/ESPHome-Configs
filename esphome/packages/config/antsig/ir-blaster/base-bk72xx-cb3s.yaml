@@ -1,6 +1,6 @@
 substitutions:
   name: "${room}-ir-blaster"
-  friendly_name: "${area} IR Blaster"
+  friendly_name: "$Antsig IR Blaster{area}"
 
 esphome:
   name: ${name}
