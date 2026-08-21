@@ -1,0 +1,2 @@
+# esphome writes build state next to the config when invoked here
+.esphome/

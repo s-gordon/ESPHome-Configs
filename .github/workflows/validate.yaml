@@ -1,0 +1,49 @@
+name: Validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  # Package changes here reach devices via `ref:`, so catch upstream
+  # regressions before a device build does.
+  schedule:
+    - cron: "0 6 * * 1"
+
+jobs:
+  esphome-config:
+    name: esphome config (${{ matrix.esphome-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        esphome-version:
+          - "2026.7.4"   # currently deployed
+          - "latest"     # next version to move to
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install ESPHome
+        run: |
+          if [ "${{ matrix.esphome-version }}" = "latest" ]; then
+            pip install esphome
+          else
+            pip install "esphome==${{ matrix.esphome-version }}"
+          fi
+          esphome version
+
+      - name: Validate every fixture
+        run: |
+          shopt -s nullglob
+          failed=0
+          for f in tests/*.yaml; do
+            [ "$(basename "$f")" = "secrets.yaml" ] && continue
+            echo "::group::$f"
+            esphome config "$f" || { echo "::error file=$f::esphome config failed"; failed=1; }
+            echo "::endgroup::"
+          done
+          exit $failed

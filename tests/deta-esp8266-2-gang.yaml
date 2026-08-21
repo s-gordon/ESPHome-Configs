@@ -1,0 +1,23 @@
+# CI fixture: DETA Grid Connect switch, ESP8266 + 2-gang.
+# Packages are included by local path so CI validates the working tree,
+# not whatever is currently published on main.
+substitutions:
+  name: "ci-deta-2-gang"
+  friendly_name: "CI Deta 2-gang"
+
+packages:
+  base: !include ../esphome/packages/config/detagrid-smart-switch/base.yaml
+  variant: !include ../esphome/packages/config/detagrid-smart-switch/2-gang.yaml
+
+api:
+  encryption:
+    key: !secret apikey
+
+ota:
+  - platform: esphome
+    password: !secret ota_password
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  min_auth_mode: WPA2

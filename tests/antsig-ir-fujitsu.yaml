@@ -1,0 +1,21 @@
+# CI fixture: Antsig smart wifi IR universal remote, fujitsu climate.
+# base.yaml expects ${room} and ${area} substitutions from the device config.
+substitutions:
+  room: "ci"
+  area: "CI"
+
+packages:
+  base: !include ../esphome/packages/config/antsig/smart-wifi-ir-universal-remote/base.yaml
+  climate: !include ../esphome/packages/config/antsig/smart-wifi-ir-universal-remote/climate-fujitsu.yaml
+
+api:
+  encryption:
+    key: !secret apikey
+
+ota:
+  - platform: esphome
+    password: !secret ota_password
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password

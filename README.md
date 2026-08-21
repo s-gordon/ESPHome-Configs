@@ -55,8 +55,8 @@ substitutions:
 packages:
   remote_package:
     url: https://github.com/s-gordon/ESPHome-Configs
-    ref: main
-    refresh: 1d
+    ref: v1.0.0
+    refresh: never
     files:
       - esphome/packages/config/detagrid-smart-switch/base.yaml
       - esphome/packages/config/detagrid-smart-switch/1-gang.yaml
@@ -106,6 +106,39 @@ tooling beyond what ESPHome ships. Devices already running these configs update 
 | DETA Grid Connect 2 gang (6912HAMBK)          | BK72XX / wb3s | `base-BK72XX.yaml` + `DETA-...-2-gang_BK72XX.yaml` |
 | DETA Grid Connect 1 gang                      | BK72XX / cb3s | `base-BK72XX-cb3s.yaml` + `1-gang-cb3s.yaml`       |
 | Antsig smart wifi IR universal remote         | BK72XX / cb3s | `antsig/.../base.yaml` + a `climate-*.yaml`        |
+
+## Versioning
+
+Releases are tagged with [SemVer](https://semver.org) and cut by `release-please` from
+[Conventional Commits](https://www.conventionalcommits.org). **Pin `ref:` to a tag**
+rather than tracking `main` — package changes here reach every device on its next
+build, and a tag lets you roll one device forward, live with it, then move the rest.
+Use `refresh: never` with a pinned tag; `refresh: 1d` only adds a network round-trip
+against an immutable ref.
+
+What the version numbers mean for a consumer:
+
+| Bump | Means | Examples |
+| --- | --- | --- |
+| Major | Action needed on your side | entity `name:` changes (Home Assistant entity IDs move), substitution renames, GPIO reassignments, file renames — which break the `files:`/`!include` list |
+| Minor | New things, safe to take | new device variants, new optional substitutions |
+| Patch | Fixes, safe to take | typos, deprecated-syntax updates |
+
+One version series covers every device family here, so an IR-blaster change can bump
+the number even if you only use the switches. Read the [CHANGELOG](CHANGELOG.md)
+before moving a major.
+
+## Continuous integration
+
+`.github/workflows/validate.yaml` runs `esphome config` over the fixtures in
+[tests/](tests/) on every push and PR, against both the currently-deployed ESPHome
+version and the latest release, plus weekly to catch upstream regressions.
+
+The fixtures pull the packages in by **local relative path**, not via
+`remote_package` — so CI validates the branch under test rather than whatever is
+published on `main`. When you add a device variant, add a fixture for it in the same
+commit, otherwise nothing covers it. `tests/secrets.yaml` holds throwaway values and
+is never used on a real device.
 
 ## Licence
 
