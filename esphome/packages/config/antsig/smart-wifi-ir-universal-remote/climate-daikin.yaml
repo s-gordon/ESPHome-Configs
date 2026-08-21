@@ -8,4 +8,3 @@ climate:
       temperature_step: 1
     name: AC
     receiver_id: rcvr
-    sensor: temperature

@@ -71,8 +71,6 @@ ota:
   - platform: esphome
     password: !secret ota_password
 
-captive_portal: !remove
-
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
@@ -88,8 +86,10 @@ wifi:
 ```
 
 Note that the local config has the last word: the base packages give you an open
-fallback AP and a captive portal, and the example above replaces the AP with a
-password-protected one and drops the captive portal with `!remove`.
+fallback AP, and the example above replaces it with a password-protected one. Keep
+the base's `captive_portal:` — these are in-wall switches, so pulling one out to
+reach a USB port is not a realistic recovery path, and an AP with no captive portal
+and no `web_server:` cannot be used to configure or monitor anything.
 
 For the IR blaster, include `antsig/smart-wifi-ir-universal-remote/base.yaml` (which
 expects `room` and `area` substitutions) plus one `climate-*.yaml` for your AC unit.
