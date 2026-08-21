@@ -1,8 +1,6 @@
 substitutions:
   name: "deta-double-gang"
   friendly_name: DETA Double Gang Switch
-  friendly_name_left: DETA Double Gang - Left
-  friendlyname_right: DETA Double Gang - Right
   device_icon: "mdi:light-recessed"
   device_model: Deta Grid Connect Double Gang 6912HAMBK (Matte Black)
 
