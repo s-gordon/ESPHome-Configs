@@ -43,6 +43,13 @@ Pin naming differs by chip family: ESP8266 variants use `GPIOxx`, Beken BK72XX v
 use `Pxx`. Pick the variant file matching the module actually inside the device —
 these switches ship with different internals under the same model number.
 
+Each gang exposes both its relay (a `light`, or a `fan` on the middle gang of the
+fan variant) and its physical button as a `binary_sensor`. The button is wired to
+its own relay on-device, so the switch works without the network; the button entity
+is exposed as well because it is the only thing that distinguishes a physical press
+from an API command, and it lets press gestures be built in Home Assistant without
+reflashing.
+
 Entity names are bare (`1st`, `1st Button`, `Restart`). ESPHome already prefixes them
 with the device's `friendly_name` in Home Assistant, so repeating it in `name:` would
 double it up. Gangs are numbered by ordinal rather than named by position, because

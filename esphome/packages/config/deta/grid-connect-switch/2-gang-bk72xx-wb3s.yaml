@@ -49,7 +49,6 @@ binary_sensor:
     on_press:
       then:
         - light.toggle: light_1
-    internal: true
 
   # 2nd gang
   - platform: gpio
@@ -62,4 +61,3 @@ binary_sensor:
     on_press:
       then:
         - light.toggle: light_2
-    internal: true
