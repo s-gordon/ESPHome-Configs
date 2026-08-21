@@ -5,7 +5,7 @@ esphome:
 bk72xx:
   board: cb3s
   framework:
-    version: latest
+    version: recommended
 
 wifi:
   # Fallback hotspot (captive portal) in case wifi connection fails
