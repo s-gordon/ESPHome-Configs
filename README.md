@@ -45,7 +45,12 @@ these switches ship with different internals under the same model number.
 
 The status LED is exposed through the `light:` domain rather than the top-level
 `status_led:` component, so it still indicates connection state but can also be turned
-off from Home Assistant — useful on a bedroom switch. Each gang exposes both its relay (a `light`, or a `fan` on the middle gang of the
+off from Home Assistant — useful on a bedroom switch. The trade-off is that the light
+platform is not loaded in OTA safe mode, so the LED goes dark there instead of blinking
+a diagnostic. Each variant carries the top-level form commented out next to it if you
+want to trade back. Note that neither form stops the LED blinking on an API or wifi
+drop — for that you want a plain `binary` light on the pin, with no status indication
+at all. Each gang exposes both its relay (a `light`, or a `fan` on the middle gang of the
 fan variant) and its physical button as a `binary_sensor`. The button is wired to
 its own relay on-device, so the switch works without the network; the button entity
 is exposed as well because it is the only thing that distinguishes a physical press
