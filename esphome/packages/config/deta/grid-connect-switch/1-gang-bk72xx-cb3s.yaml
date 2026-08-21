@@ -1,0 +1,37 @@
+substitutions:
+  led_pin: P9
+  switch_1_relay_pin: P6
+  switch_1_button_pin: P14
+  device_icon: "mdi:light-recessed"
+
+status_led:
+  pin:
+    number: ${led_pin}
+    inverted: true
+
+output:
+  # 1st gang
+  - platform: gpio
+    pin: ${switch_1_relay_pin}
+    id: relay_1
+
+light:
+  # 1st gang
+  - platform: binary
+    name: "1st"
+    output: relay_1
+    id: light_1
+    icon: ${device_icon}
+
+binary_sensor:
+  # 1st gang
+  - platform: gpio
+    pin:
+      number: ${switch_1_button_pin}
+      mode: INPUT
+      inverted: true
+    name: "1st Button"
+    # toggle relay on push
+    on_press:
+      then:
+        - light.toggle: light_1

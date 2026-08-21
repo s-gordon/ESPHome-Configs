@@ -4,8 +4,8 @@ substitutions:
   friendly_name: "CI Deta 1 Gang cb3s"
 
 packages:
-  base: !include ../esphome/packages/config/detagrid-smart-switch/base-BK72XX-cb3s.yaml
-  variant: !include ../esphome/packages/config/detagrid-smart-switch/1-gang-cb3s.yaml
+  base: !include ../esphome/packages/config/deta/grid-connect-switch/base-bk72xx-cb3s.yaml
+  variant: !include ../esphome/packages/config/deta/grid-connect-switch/1-gang-bk72xx-cb3s.yaml
 
 api:
   encryption:

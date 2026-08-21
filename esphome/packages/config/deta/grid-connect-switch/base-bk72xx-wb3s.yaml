@@ -18,11 +18,11 @@ logger:
 
 sensor:
   - platform: wifi_signal
-    name: ${name} Wifi Signal Strength
+    name: "WiFi Signal Strength"
     update_interval: 60s
   - platform: uptime
-    name: ${name} Uptime
+    name: "Uptime"
 
 switch:
   - platform: restart
-    name: "${name} REBOOT"
+    name: "Restart"

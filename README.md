@@ -8,20 +8,26 @@ kept in sync from one place rather than copy-pasted per device.
 
 ```
 esphome/packages/config/
-├── detagrid-smart-switch/          # DETA Grid Connect wall switches
-│   ├── base.yaml                   # ESP8266 (esp01_1m) platform + common entities
-│   ├── base-BK72XX.yaml            # Beken BK72XX, wb3s module
-│   ├── base-BK72XX-cb3s.yaml       # Beken BK72XX, cb3s module
-│   ├── 1-gang.yaml / 2-gang.yaml / 3-gang.yaml          # ESP8266 pinouts + entities
-│   ├── 3-gang-middle-fan.yaml      # as 3-gang, middle gang exposed as a fan
-│   ├── 1-gang-cb3s.yaml            # BK72XX (cb3s) pinout + entities
-│   ├── DETA-Grid-Connect-Smart-Switch-2-gang_BK72XX.yaml
-│   └── esphome.yaml                # example per-device config to copy locally
+├── deta/grid-connect-switch/       # DETA Grid Connect wall switches
+│   ├── base-esp8266.yaml           # ESP8266 (esp01_1m) platform + common entities
+│   ├── base-bk72xx-wb3s.yaml       # Beken BK72XX, wb3s module
+│   ├── base-bk72xx-cb3s.yaml       # Beken BK72XX, cb3s module
+│   ├── 1-gang-esp8266.yaml
+│   ├── 2-gang-esp8266.yaml
+│   ├── 3-gang-esp8266.yaml
+│   ├── 3-gang-middle-fan-esp8266.yaml   # as 3-gang, 2nd gang exposed as a fan
+│   ├── 1-gang-bk72xx-cb3s.yaml
+│   ├── 2-gang-bk72xx-wb3s.yaml
+│   └── example-device.yaml         # example per-device config to copy locally
 └── antsig/smart-wifi-ir-universal-remote/
     ├── base.yaml                   # cb3s IR blaster: transmitter, receiver, status LED
     ├── climate-daikin.yaml         # Daikin climate over IR
     └── climate-fujitsu.yaml        # Fujitsu General climate over IR
 ```
+
+Every file is named `<variant>-<chip>[-<module>].yaml`, so a base and a variant pair up
+when their chip suffixes match. Mixing an `-esp8266` base with a `-bk72xx-` variant is a
+validation error, not a silent misconfiguration.
 
 ## How it fits together
 
@@ -37,12 +43,17 @@ Pin naming differs by chip family: ESP8266 variants use `GPIOxx`, Beken BK72XX v
 use `Pxx`. Pick the variant file matching the module actually inside the device —
 these switches ship with different internals under the same model number.
 
+Entity names are bare (`1st`, `1st Button`, `Restart`). ESPHome already prefixes them
+with the device's `friendly_name` in Home Assistant, so repeating it in `name:` would
+double it up. Gangs are numbered by ordinal rather than named by position, because
+position depends on how the switch was mounted.
+
 Everything device-specific (`name`, `friendly_name`, API key, OTA password, wifi
 credentials) stays in the local config on the ESPHome host; nothing secret lives here.
 
 ## Usage
 
-Copy `esphome/packages/config/detagrid-smart-switch/esphome.yaml` into your ESPHome
+Copy `esphome/packages/config/deta/grid-connect-switch/example-device.yaml` into your ESPHome
 config directory as `<device>.yaml`, set the substitutions, and uncomment the package
 files that match your hardware. A real example, an older DETA Grid 1-gang light switch:
 
@@ -55,11 +66,11 @@ substitutions:
 packages:
   remote_package:
     url: https://github.com/s-gordon/ESPHome-Configs
-    ref: v1.0.0
+    ref: v2.0.0
     refresh: never
     files:
-      - esphome/packages/config/detagrid-smart-switch/base.yaml
-      - esphome/packages/config/detagrid-smart-switch/1-gang.yaml
+      - esphome/packages/config/deta/grid-connect-switch/base-esp8266.yaml
+      - esphome/packages/config/deta/grid-connect-switch/1-gang-esp8266.yaml
 
 api:
   encryption:
@@ -99,13 +110,18 @@ tooling beyond what ESPHome ships. Devices already running these configs update 
 
 ## Devices covered
 
-| Device                                        | Chip          | Files                                              |
-| --------------------------------------------- | ------------- | -------------------------------------------------- |
-| DETA Grid Connect smart switch, 1/2/3 gang    | ESP8266       | `base.yaml` + `N-gang.yaml`                        |
-| DETA Grid Connect smart switch, 3 gang w/ fan | ESP8266       | `base.yaml` + `3-gang-middle-fan.yaml`             |
-| DETA Grid Connect 2 gang (6912HAMBK)          | BK72XX / wb3s | `base-BK72XX.yaml` + `DETA-...-2-gang_BK72XX.yaml` |
-| DETA Grid Connect 1 gang                      | BK72XX / cb3s | `base-BK72XX-cb3s.yaml` + `1-gang-cb3s.yaml`       |
-| Antsig smart wifi IR universal remote         | BK72XX / cb3s | `antsig/.../base.yaml` + a `climate-*.yaml`        |
+| Device | Chip | Base | Variant |
+| --- | --- | --- | --- |
+| DETA Grid Connect, 1 gang | ESP8266 | `base-esp8266.yaml` | `1-gang-esp8266.yaml` |
+| DETA Grid Connect, 2 gang | ESP8266 | `base-esp8266.yaml` | `2-gang-esp8266.yaml` |
+| DETA Grid Connect, 3 gang | ESP8266 | `base-esp8266.yaml` | `3-gang-esp8266.yaml` |
+| DETA Grid Connect, 3 gang w/ fan | ESP8266 | `base-esp8266.yaml` | `3-gang-middle-fan-esp8266.yaml` |
+| DETA Grid Connect, 1 gang | BK72XX / cb3s | `base-bk72xx-cb3s.yaml` | `1-gang-bk72xx-cb3s.yaml` |
+| DETA Grid Connect, 2 gang (6912HAMBK) | BK72XX / wb3s | `base-bk72xx-wb3s.yaml` | `2-gang-bk72xx-wb3s.yaml` |
+| Antsig wifi IR universal remote | BK72XX / cb3s | `antsig/.../base.yaml` | a `climate-*.yaml` |
+
+`min_auth_mode:` is ESP8266/ESP32 only — setting it on a BK72XX device fails config
+validation.
 
 ## Versioning
 

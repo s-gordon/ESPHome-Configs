@@ -1,13 +1,13 @@
-# CI fixture: DETA Grid Connect switch, ESP8266 + 1-gang.
+# CI fixture: DETA Grid Connect switch, ESP8266 + 3-gang.
 # Packages are included by local path so CI validates the working tree,
 # not whatever is currently published on main.
 substitutions:
-  name: "ci-deta-1-gang"
-  friendly_name: "CI Deta 1-gang"
+  name: "ci-deta-3-gang"
+  friendly_name: "CI Deta 3-gang"
 
 packages:
-  base: !include ../esphome/packages/config/detagrid-smart-switch/base.yaml
-  variant: !include ../esphome/packages/config/detagrid-smart-switch/1-gang.yaml
+  base: !include ../esphome/packages/config/deta/grid-connect-switch/base-esp8266.yaml
+  variant: !include ../esphome/packages/config/deta/grid-connect-switch/3-gang-esp8266.yaml
 
 api:
   encryption:

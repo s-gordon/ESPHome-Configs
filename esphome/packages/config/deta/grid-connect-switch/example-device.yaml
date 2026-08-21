@@ -1,0 +1,46 @@
+# Example device config. Copy this into your ESPHome config directory as
+# <device>.yaml, set the substitutions, and pick the base + variant pair
+# that matches the hardware inside your switch.
+substitutions:
+  name: "deta-switch"
+  friendly_name: "Deta Switch"
+
+packages:
+  remote_package:
+    url: https://github.com/s-gordon/ESPHome-Configs
+    ref: v2.0.0
+    refresh: never
+    files:
+      # -- pick ONE base and ONE variant --
+
+      # ESP8266
+      - esphome/packages/config/deta/grid-connect-switch/base-esp8266.yaml
+      - esphome/packages/config/deta/grid-connect-switch/1-gang-esp8266.yaml
+      # - esphome/packages/config/deta/grid-connect-switch/2-gang-esp8266.yaml
+      # - esphome/packages/config/deta/grid-connect-switch/3-gang-esp8266.yaml
+      # - esphome/packages/config/deta/grid-connect-switch/3-gang-middle-fan-esp8266.yaml
+
+      # BK72XX / cb3s
+      # - esphome/packages/config/deta/grid-connect-switch/base-bk72xx-cb3s.yaml
+      # - esphome/packages/config/deta/grid-connect-switch/1-gang-bk72xx-cb3s.yaml
+
+      # BK72XX / wb3s
+      # - esphome/packages/config/deta/grid-connect-switch/base-bk72xx-wb3s.yaml
+      # - esphome/packages/config/deta/grid-connect-switch/2-gang-bk72xx-wb3s.yaml
+
+api:
+  encryption:
+    key: !secret apikey
+
+ota:
+  - platform: esphome
+    password: !secret ota_password
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  # min_auth_mode is ESP8266/ESP32 only - it fails validation on BK72XX
+  min_auth_mode: WPA2
+  ap:
+    ssid: "${name} AP"
+    password: !secret ap_password

@@ -6,8 +6,8 @@ substitutions:
   friendly_name: "CI Deta 2-gang"
 
 packages:
-  base: !include ../esphome/packages/config/detagrid-smart-switch/base.yaml
-  variant: !include ../esphome/packages/config/detagrid-smart-switch/2-gang.yaml
+  base: !include ../esphome/packages/config/deta/grid-connect-switch/base-esp8266.yaml
+  variant: !include ../esphome/packages/config/deta/grid-connect-switch/2-gang-esp8266.yaml
 
 api:
   encryption:

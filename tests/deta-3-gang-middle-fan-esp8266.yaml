@@ -6,8 +6,8 @@ substitutions:
   friendly_name: "CI Deta 3-gang-middle-fan"
 
 packages:
-  base: !include ../esphome/packages/config/detagrid-smart-switch/base.yaml
-  variant: !include ../esphome/packages/config/detagrid-smart-switch/3-gang-middle-fan.yaml
+  base: !include ../esphome/packages/config/deta/grid-connect-switch/base-esp8266.yaml
+  variant: !include ../esphome/packages/config/deta/grid-connect-switch/3-gang-middle-fan-esp8266.yaml
 
 api:
   encryption:

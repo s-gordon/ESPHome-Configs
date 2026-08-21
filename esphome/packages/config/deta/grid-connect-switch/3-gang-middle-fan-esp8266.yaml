@@ -1,0 +1,86 @@
+substitutions:
+  led_pin: GPIO0
+  switch_1_relay_pin: GPIO5
+  switch_2_relay_pin: GPIO14
+  switch_3_relay_pin: GPIO12
+  switch_1_button_pin: GPIO16
+  switch_2_button_pin: GPIO4
+  switch_3_button_pin: GPIO3
+
+status_led:
+  pin:
+    number: ${led_pin}
+    inverted: true
+
+output:
+  # 1st gang
+  - platform: gpio
+    pin: ${switch_1_relay_pin}
+    id: relay_1
+
+  # 2nd gang
+  - platform: gpio
+    pin: ${switch_2_relay_pin}
+    id: relay_2
+
+  # 3rd gang
+  - platform: gpio
+    pin: ${switch_3_relay_pin}
+    id: relay_3
+
+light:
+  # 1st gang
+  - platform: binary
+    name: "1st"
+    output: relay_1
+    id: light_1
+
+  # 3rd gang
+  - platform: binary
+    name: "3rd"
+    output: relay_3
+    id: light_3
+
+fan:
+  # 2nd gang
+  - platform: binary
+    name: "2nd"
+    output: relay_2
+    id: fan_2
+
+binary_sensor:
+  # 1st gang
+  - platform: gpio
+    pin:
+      number: ${switch_1_button_pin}
+      mode: INPUT
+      inverted: true
+    name: "1st Button"
+    # toggle relay on push
+    on_press:
+      then:
+        - light.toggle: light_1
+
+  # 2nd gang
+  - platform: gpio
+    pin:
+      number: ${switch_2_button_pin}
+      mode: INPUT_PULLUP
+      inverted: true
+    name: "2nd Button"
+    # toggle relay on push
+    on_press:
+      then:
+        - fan.toggle: fan_2
+
+  # 3rd gang
+  - platform: gpio
+    pin:
+      number: ${switch_3_button_pin}
+      mode: INPUT_PULLUP
+      inverted: true
+    name: "3rd Button"
+    # toggle relay on push
+    on_press:
+      then:
+        - light.toggle: light_3
