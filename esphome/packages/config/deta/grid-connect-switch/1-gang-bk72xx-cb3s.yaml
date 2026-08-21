@@ -4,11 +4,6 @@ substitutions:
   switch_1_button_pin: P14
   device_icon: "mdi:light-recessed"
 
-status_led:
-  pin:
-    number: ${led_pin}
-    inverted: true
-
 output:
   # 1st gang
   - platform: gpio
@@ -16,6 +11,14 @@ output:
     id: relay_1
 
 light:
+  # Status LED
+  - platform: status_led
+    name: "Status"
+    id: status_light
+    pin:
+      number: ${led_pin}
+      inverted: true
+
   # 1st gang
   - platform: binary
     name: "1st"

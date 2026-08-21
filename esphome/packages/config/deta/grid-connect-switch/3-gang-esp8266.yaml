@@ -7,11 +7,6 @@ substitutions:
   switch_2_button_pin: GPIO4
   switch_3_button_pin: GPIO3
 
-status_led:
-  pin:
-    number: ${led_pin}
-    inverted: true
-
 output:
   # 1st gang
   - platform: gpio
@@ -29,6 +24,14 @@ output:
     id: relay_3
 
 light:
+  # Status LED
+  - platform: status_led
+    name: "Status"
+    id: status_light
+    pin:
+      number: ${led_pin}
+      inverted: true
+
   # 1st gang
   - platform: binary
     name: "1st"

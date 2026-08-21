@@ -43,7 +43,9 @@ Pin naming differs by chip family: ESP8266 variants use `GPIOxx`, Beken BK72XX v
 use `Pxx`. Pick the variant file matching the module actually inside the device —
 these switches ship with different internals under the same model number.
 
-Each gang exposes both its relay (a `light`, or a `fan` on the middle gang of the
+The status LED is exposed through the `light:` domain rather than the top-level
+`status_led:` component, so it still indicates connection state but can also be turned
+off from Home Assistant — useful on a bedroom switch. Each gang exposes both its relay (a `light`, or a `fan` on the middle gang of the
 fan variant) and its physical button as a `binary_sensor`. The button is wired to
 its own relay on-device, so the switch works without the network; the button entity
 is exposed as well because it is the only thing that distinguishes a physical press
@@ -165,6 +167,13 @@ before moving a major.
 `.github/workflows/validate.yaml` runs `esphome config` over the fixtures in
 [tests/](tests/) on every push and PR, against both the currently-deployed ESPHome
 version and the latest release, plus weekly to catch upstream regressions.
+
+The base files declare `min_version:` matching the older of those two, so a consumer
+on an ESPHome older than anything CI covers fails loudly instead of mis-parsing. Bump
+the two together.
+
+CI validates configs; it does not compile them. Schema and substitution errors are
+caught, but compile failures and flash overflow are not.
 
 The fixtures pull the packages in by **local relative path**, not via
 `remote_package` — so CI validates the branch under test rather than whatever is
