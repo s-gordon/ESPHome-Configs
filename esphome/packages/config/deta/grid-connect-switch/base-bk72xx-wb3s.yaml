@@ -1,6 +1,8 @@
 esphome:
   name: "${name}"
   friendly_name: "${friendly_name}"
+  # Oldest version CI validates against; bump both together.
+  min_version: 2026.7.4
 
 bk72xx:
   board: wb3s

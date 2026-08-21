@@ -3,18 +3,37 @@ substitutions:
   switch_1_relay_pin: GPIO13
   switch_1_button_pin: GPIO16
 
-status_led:
-  pin:
-    number: ${led_pin}
-    inverted: true
-
 output:
   # 1st gang
   - platform: gpio
     pin: ${switch_1_relay_pin}
     id: relay_1
 
+# Alternative: drive the LED through the top-level status_led component
+# instead of the light platform below. It keeps indicating status in OTA
+# safe mode, where the light platform is not loaded, but the LED is then
+# not controllable from Home Assistant. Both forms drive the same pin, so
+# uncommenting this means deleting the "Status LED" entry under light:.
+#
+# Note that neither form stops the LED blinking when the API or wifi drops
+# - status indication takes precedence in warning state. To silence that
+# entirely, replace it with `light: - platform: binary` on ${led_pin},
+# which gives manual control and no status indication at all.
+#
+# status_led:
+#   pin:
+#     number: ${led_pin}
+#     inverted: true
+
 light:
+  # Status LED
+  - platform: status_led
+    name: "Status"
+    id: status_light
+    pin:
+      number: ${led_pin}
+      inverted: true
+
   # 1st gang
   - platform: binary
     name: "1st"

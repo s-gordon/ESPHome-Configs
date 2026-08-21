@@ -19,8 +19,8 @@ esphome/packages/config/
 │   ├── 1-gang-bk72xx-cb3s.yaml
 │   ├── 2-gang-bk72xx-wb3s.yaml
 │   └── example-device.yaml         # example per-device config to copy locally
-└── antsig/smart-wifi-ir-universal-remote/
-    ├── base.yaml                   # cb3s IR blaster: transmitter, receiver, status LED
+└── antsig/ir-blaster/
+    ├── base-bk72xx-cb3s.yaml       # transmitter, receiver, status LED
     ├── climate-daikin.yaml         # Daikin climate over IR
     └── climate-fujitsu.yaml        # Fujitsu General climate over IR
 ```
@@ -42,6 +42,20 @@ Each device config is composed from two package files:
 Pin naming differs by chip family: ESP8266 variants use `GPIOxx`, Beken BK72XX variants
 use `Pxx`. Pick the variant file matching the module actually inside the device —
 these switches ship with different internals under the same model number.
+
+The status LED is exposed through the `light:` domain rather than the top-level
+`status_led:` component, so it still indicates connection state but can also be turned
+off from Home Assistant — useful on a bedroom switch. The trade-off is that the light
+platform is not loaded in OTA safe mode, so the LED goes dark there instead of blinking
+a diagnostic. Each variant carries the top-level form commented out next to it if you
+want to trade back. Note that neither form stops the LED blinking on an API or wifi
+drop — for that you want a plain `binary` light on the pin, with no status indication
+at all. Each gang exposes both its relay (a `light`, or a `fan` on the middle gang of the
+fan variant) and its physical button as a `binary_sensor`. The button is wired to
+its own relay on-device, so the switch works without the network; the button entity
+is exposed as well because it is the only thing that distinguishes a physical press
+from an API command, and it lets press gestures be built in Home Assistant without
+reflashing.
 
 Entity names are bare (`1st`, `1st Button`, `Restart`). ESPHome already prefixes them
 with the device's `friendly_name` in Home Assistant, so repeating it in `name:` would
@@ -66,7 +80,7 @@ substitutions:
 packages:
   remote_package:
     url: https://github.com/s-gordon/ESPHome-Configs
-    ref: v2.0.0
+    ref: v2.0.0 # x-release-please-version
     refresh: never
     files:
       - esphome/packages/config/deta/grid-connect-switch/base-esp8266.yaml
@@ -102,8 +116,17 @@ the base's `captive_portal:` — these are in-wall switches, so pulling one out 
 reach a USB port is not a realistic recovery path, and an AP with no captive portal
 and no `web_server:` cannot be used to configure or monitor anything.
 
-For the IR blaster, include `antsig/smart-wifi-ir-universal-remote/base.yaml` (which
-expects `room` and `area` substitutions) plus one `climate-*.yaml` for your AC unit.
+For the IR blaster, include `antsig/ir-blaster/base-bk72xx-cb3s.yaml` (which expects
+`room` and `area` substitutions) plus one `climate-*.yaml` for your AC unit. The
+climate packages read the current temperature from a sensor the device config must
+supply with `id: temperature`:
+
+```yaml
+sensor:
+  - platform: homeassistant
+    id: temperature
+    entity_id: sensor.living_room_temperature
+```
 
 Then build and flash from the ESPHome builder / dashboard as usual — no external
 tooling beyond what ESPHome ships. Devices already running these configs update OTA.
@@ -118,7 +141,7 @@ tooling beyond what ESPHome ships. Devices already running these configs update 
 | DETA Grid Connect, 3 gang w/ fan | ESP8266 | `base-esp8266.yaml` | `3-gang-middle-fan-esp8266.yaml` |
 | DETA Grid Connect, 1 gang | BK72XX / cb3s | `base-bk72xx-cb3s.yaml` | `1-gang-bk72xx-cb3s.yaml` |
 | DETA Grid Connect, 2 gang (6912HAMBK) | BK72XX / wb3s | `base-bk72xx-wb3s.yaml` | `2-gang-bk72xx-wb3s.yaml` |
-| Antsig wifi IR universal remote | BK72XX / cb3s | `antsig/.../base.yaml` | a `climate-*.yaml` |
+| Antsig wifi IR universal remote | BK72XX / cb3s | `antsig/ir-blaster/base-bk72xx-cb3s.yaml` | a `climate-*.yaml` |
 
 `min_auth_mode:` is ESP8266/ESP32 only — setting it on a BK72XX device fails config
 validation.
@@ -149,6 +172,13 @@ before moving a major.
 `.github/workflows/validate.yaml` runs `esphome config` over the fixtures in
 [tests/](tests/) on every push and PR, against both the currently-deployed ESPHome
 version and the latest release, plus weekly to catch upstream regressions.
+
+The base files declare `min_version:` matching the older of those two, so a consumer
+on an ESPHome older than anything CI covers fails loudly instead of mis-parsing. Bump
+the two together.
+
+CI validates configs; it does not compile them. Schema and substitution errors are
+caught, but compile failures and flash overflow are not.
 
 The fixtures pull the packages in by **local relative path**, not via
 `remote_package` — so CI validates the branch under test rather than whatever is
