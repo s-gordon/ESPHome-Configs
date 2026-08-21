@@ -1,12 +1,13 @@
-# CI fixture: Antsig smart wifi IR universal remote, fujitsu climate.
-# base.yaml expects ${room} and ${area} substitutions from the device config.
+# CI fixture: Antsig IR blaster, fujitsu climate.
+# base expects ${room} and ${area}; the climate package expects a
+# temperature sensor with id: temperature from the device config.
 substitutions:
   room: "ci"
   area: "CI"
 
 packages:
-  base: !include ../esphome/packages/config/antsig/smart-wifi-ir-universal-remote/base.yaml
-  climate: !include ../esphome/packages/config/antsig/smart-wifi-ir-universal-remote/climate-fujitsu.yaml
+  base: !include ../esphome/packages/config/antsig/ir-blaster/base-bk72xx-cb3s.yaml
+  climate: !include ../esphome/packages/config/antsig/ir-blaster/climate-fujitsu.yaml
 
 api:
   encryption:
@@ -19,3 +20,8 @@ ota:
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
+
+sensor:
+  - platform: homeassistant
+    id: temperature
+    entity_id: sensor.ci_room_temperature
