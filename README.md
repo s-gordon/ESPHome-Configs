@@ -19,6 +19,10 @@ esphome/packages/config/
 │   ├── 1-gang-bk72xx-cb3s.yaml
 │   ├── 2-gang-bk72xx-wb3s.yaml
 │   └── example-device.yaml         # example per-device config to copy locally
+├── mirabella/genio-smart-plug/     # Mirabella Genio wifi smart plug
+│   ├── base-esp8266.yaml
+│   ├── plug-esp8266.yaml           # relay, button, indicator LED
+│   └── example-device.yaml
 └── antsig/ir-blaster/
     ├── base-bk72xx-cb3s.yaml       # transmitter, receiver, status LED
     ├── climate-daikin.yaml         # Daikin climate over IR
@@ -116,6 +120,12 @@ the base's `captive_portal:` — these are in-wall switches, so pulling one out 
 reach a USB port is not a realistic recovery path, and an AP with no captive portal
 and no `web_server:` cannot be used to configure or monitor anything.
 
+The Genio plug follows the same base + variant split, but has only one variant:
+include `mirabella/genio-smart-plug/base-esp8266.yaml` plus `plug-esp8266.yaml`. Its
+outlet is exposed as a `light` named `Plug` (these are on lamps) and the red LED in
+the button tracks the relay rather than connection state, so it reads as "the plug is
+on" from across the room.
+
 For the IR blaster, include `antsig/ir-blaster/base-bk72xx-cb3s.yaml` (which expects
 `room` and `area` substitutions) plus one `climate-*.yaml` for your AC unit. The
 climate packages read the current temperature from a sensor the device config must
@@ -141,6 +151,7 @@ tooling beyond what ESPHome ships. Devices already running these configs update 
 | DETA Grid Connect, 3 gang w/ fan | ESP8266 | `base-esp8266.yaml` | `3-gang-middle-fan-esp8266.yaml` |
 | DETA Grid Connect, 1 gang | BK72XX / cb3s | `base-bk72xx-cb3s.yaml` | `1-gang-bk72xx-cb3s.yaml` |
 | DETA Grid Connect, 2 gang (6912HAMBK) | BK72XX / wb3s | `base-bk72xx-wb3s.yaml` | `2-gang-bk72xx-wb3s.yaml` |
+| Mirabella Genio smart plug | ESP8266 | `mirabella/genio-smart-plug/base-esp8266.yaml` | `plug-esp8266.yaml` |
 | Antsig wifi IR universal remote | BK72XX / cb3s | `antsig/ir-blaster/base-bk72xx-cb3s.yaml` | a `climate-*.yaml` |
 
 `min_auth_mode:` is ESP8266/ESP32 only — setting it on a BK72XX device fails config
