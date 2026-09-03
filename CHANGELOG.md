@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.0.1](https://github.com/s-gordon/ESPHome-Configs/compare/v3.0.0...v3.0.1) (2026-09-03)
+
+
+### Fixes
+
+* :bug: led relay pin corrected to P8 for CB3S chipset ([d37661a](https://github.com/s-gordon/ESPHome-Configs/commit/d37661a0bfcb9425d85362c34b936443dcc08546))
+* :bug: led relay pin corrected to P8 for CB3S chipset ([b24577f](https://github.com/s-gordon/ESPHome-Configs/commit/b24577f2384f8293839ab10680e3af1108bffb97))
+
 ## [3.0.0](https://github.com/s-gordon/ESPHome-Configs/compare/v2.0.0...v3.0.0) (2026-08-21)
 
 
