@@ -1,5 +1,13 @@
+# https://www.elektroda.com/rtvforum/viewtopic.php?p=21780647#21780647
+#  "pins": {
+#     "6": "Rel;1",
+#     "8": "WifiLED_n;1",
+#     "14": "Btn;1",
+#     "24": "Btn;2",
+#     "26": "Rel;2"
+#   },
 substitutions:
-  led_pin: P9
+  led_pin: P8
   switch_1_relay_pin: P6
   switch_1_button_pin: P14
   device_icon: "mdi:light-recessed"
