@@ -1,0 +1,46 @@
+substitutions:
+  led_pin: GPIO4
+  relay_pin: GPIO12
+  button_pin: GPIO13
+
+output:
+  - platform: gpio
+    pin: ${relay_pin}
+    id: relay_1
+
+  # Red indicator LED in the button. Driven from the relay's on/off
+  # actions below rather than by status_led, so it reads as "the plug is
+  # on" - the thing you can see from across the room - instead of as a
+  # connection diagnostic.
+  - platform: gpio
+    pin:
+      number: ${led_pin}
+      inverted: true
+    id: led_output
+
+light:
+  # Switched outlet. Exposed as a light because these plugs are on lamps;
+  # a device config driving something else can add a `switch:` template
+  # over the same output instead.
+  - platform: binary
+    name: "Plug"
+    output: relay_1
+    id: light_1
+    on_turn_on:
+      - output.turn_on: led_output
+    on_turn_off:
+      - output.turn_off: led_output
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: ${button_pin}
+      mode:
+        input: true
+        pullup: true
+      inverted: true
+    name: "Button"
+    # toggle relay on push
+    on_press:
+      then:
+        - light.toggle: light_1

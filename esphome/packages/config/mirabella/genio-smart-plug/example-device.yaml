@@ -1,0 +1,30 @@
+# Example device config. Copy this into your ESPHome config directory as
+# <device>.yaml and set the substitutions.
+substitutions:
+  name: "genio-plug"
+  friendly_name: "Genio Plug"
+
+packages:
+  remote_package:
+    url: https://github.com/s-gordon/ESPHome-Configs
+    ref: v3.0.1 # x-release-please-version
+    refresh: never
+    files:
+      - esphome/packages/config/mirabella/genio-smart-plug/base-esp8266.yaml
+      - esphome/packages/config/mirabella/genio-smart-plug/plug-esp8266.yaml
+
+api:
+  encryption:
+    key: !secret apikey
+
+ota:
+  - platform: esphome
+    password: !secret ota_password
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  min_auth_mode: WPA2
+  ap:
+    ssid: "${name} AP"
+    password: !secret ap_password
