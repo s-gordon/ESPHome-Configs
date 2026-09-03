@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.1.0](https://github.com/s-gordon/ESPHome-Configs/compare/v3.0.1...v3.1.0) (2026-09-03)
+
+
+### Features
+
+* :sparkles: add Mirabella Genio smart plug packages ([b82ebbe](https://github.com/s-gordon/ESPHome-Configs/commit/b82ebbea81560d509a9c305ab3e829b6c459571b))
+* :sparkles: add Mirabella Genio smart plug packages ([243d9e4](https://github.com/s-gordon/ESPHome-Configs/commit/243d9e4f2e866e0d8ac9543072ea17b95439ee82))
+
 ## [3.0.1](https://github.com/s-gordon/ESPHome-Configs/compare/v3.0.0...v3.0.1) (2026-09-03)
 
 
