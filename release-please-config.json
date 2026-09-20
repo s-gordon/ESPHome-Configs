@@ -43,6 +43,10 @@
         {
           "type": "generic",
           "path": "esphome/packages/config/deta/grid-connect-switch/example-device.yaml"
+        },
+        {
+          "type": "generic",
+          "path": "esphome/packages/config/mirabella/genio-smart-plug/example-device.yaml"
         }
       ]
     }
