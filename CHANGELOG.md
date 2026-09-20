@@ -1,5 +1,22 @@
 # Changelog
 
+## [3.2.0](https://github.com/s-gordon/ESPHome-Configs/compare/v3.1.0...v3.2.0) (2026-09-20)
+
+
+### Features
+
+* :sparkles: authenticate OTA with the api key instead of a password ([229780b](https://github.com/s-gordon/ESPHome-Configs/commit/229780bd67290cf0d05ae6f1817e119cdb8aceeb))
+
+
+### Fixes
+
+* :bug: bump the genio plug example's ref on release ([046683f](https://github.com/s-gordon/ESPHome-Configs/commit/046683fa12f2bf390f4f2b927d6c0af91e7ca341))
+
+
+### Documentation
+
+* :memo: explain the GPIO16 interrupt warning on esp8266 variants ([f922678](https://github.com/s-gordon/ESPHome-Configs/commit/f922678b93c2a417b11d1fe3a5e073ea4b20c005))
+
 ## [3.1.0](https://github.com/s-gordon/ESPHome-Configs/compare/v3.0.1...v3.1.0) (2026-09-03)
 
 
