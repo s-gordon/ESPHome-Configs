@@ -3,6 +3,10 @@ substitutions:
   switch_1_relay_pin: GPIO5
   switch_2_relay_pin: GPIO14
   switch_3_relay_pin: GPIO12
+  # GPIO16 is the only ESP8266 GPIO with no interrupt support (it sits in
+  # the RTC domain), so ESPHome polls this button and says so at validation
+  # time. That is how every pin behaved before ESPHome 2025.7 — the button
+  # works as it always has, and the pin is fixed by the hardware anyway.
   switch_1_button_pin: GPIO16
   switch_2_button_pin: GPIO4
   switch_3_button_pin: GPIO3
