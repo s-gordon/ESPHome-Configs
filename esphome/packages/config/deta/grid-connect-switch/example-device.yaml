@@ -34,7 +34,9 @@ api:
 
 ota:
   - platform: esphome
-    password: !secret ota_password
+    # Uploads authenticate with the api encryption key above; no separate
+    # OTA password (saves ~3.5 KB flash and 60 bytes RAM).
+    encryption:
 
 wifi:
   ssid: !secret wifi_ssid

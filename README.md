@@ -66,8 +66,8 @@ with the device's `friendly_name` in Home Assistant, so repeating it in `name:` 
 double it up. Gangs are numbered by ordinal rather than named by position, because
 position depends on how the switch was mounted.
 
-Everything device-specific (`name`, `friendly_name`, API key, OTA password, wifi
-credentials) stays in the local config on the ESPHome host; nothing secret lives here.
+Everything device-specific (`name`, `friendly_name`, API key, wifi credentials) stays
+in the local config on the ESPHome host; nothing secret lives here.
 
 ## Usage
 
@@ -98,7 +98,7 @@ api:
 
 ota:
   - platform: esphome
-    password: !secret ota_password
+    encryption:
 
 wifi:
   ssid: !secret wifi_ssid
@@ -119,6 +119,13 @@ fallback AP, and the example above replaces it with a password-protected one. Ke
 the base's `captive_portal:` — these are in-wall switches, so pulling one out to
 reach a USB port is not a realistic recovery path, and an AP with no captive portal
 and no `web_server:` cannot be used to configure or monitor anything.
+
+`ota:` takes `encryption:` with no key rather than a `password:`. Leaving the key out
+reuses the one from `api:`, so a device carries a single credential, and dropping the
+password saves roughly 3.5 KB of flash and 60 bytes of RAM — worth having on a 1 MB
+`esp01_1m`. A device already flashed from an older release still expects a password:
+give it one upload with `password:` still in place and ESPHome 2026.9.0 or newer, then
+switch to `encryption:`. Devices flashed by serial can take `encryption:` directly.
 
 The Genio plug follows the same base + variant split, but has only one variant:
 include `mirabella/genio-smart-plug/base-esp8266.yaml` plus `plug-esp8266.yaml`. Its
