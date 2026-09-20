@@ -84,7 +84,7 @@ substitutions:
 packages:
   remote_package:
     url: https://github.com/s-gordon/ESPHome-Configs
-    ref: v3.1.0 # x-release-please-version
+    ref: v3.2.0 # x-release-please-version
     refresh: never
     files:
       - esphome/packages/config/deta/grid-connect-switch/base-esp8266.yaml
